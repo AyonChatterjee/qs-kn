@@ -1,14 +1,12 @@
 import React from 'react';
 import TicketCard from './TicketCard';
 import './KanbanBoard.css';
-
 const KanbanBoard = ({ tickets }) => {
     const groupedTickets = {
         Todo: tickets.filter(ticket => ticket.status === 'Todo'),
         'In Progress': tickets.filter(ticket => ticket.status === 'In progress'),
         Backlog: tickets.filter(ticket => ticket.status === 'Backlog'),
     };
-
     return (
         <div className="kanban-board">
             {Object.keys(groupedTickets).map(status => (
@@ -22,5 +20,4 @@ const KanbanBoard = ({ tickets }) => {
         </div>
     );
 };
-
 export default KanbanBoard;
