@@ -9,6 +9,14 @@ const priorityImages = {
     0: '/icons/No-priority.svg',
 };
 
+const priorityLabels = {
+    4: 'Urgent',
+    3: 'High',
+    2: 'Medium',
+    1: 'Low',
+    0: 'No Priority',
+};
+
 const TicketCard = ({ ticket }) => {
     return (
         <div className="ticket-card">
@@ -23,8 +31,9 @@ const TicketCard = ({ ticket }) => {
                     alt={`Priority ${ticket.priority}`}
                     className="priority-image"
                 />
-                <span className="tag">{ticket.tag.join(', ')}</span>
-            </div>
+                
+        <span className="priority-label">{priorityLabels[ticket.priority]} Priority</span>           
+        </div>
         </div>
     );
 };
