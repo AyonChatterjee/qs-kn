@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useRef } from 'react';
 import axios from 'axios';
 import KanbanBoard from './components/KanbanBoard';
 import './App.css';
@@ -10,6 +10,7 @@ function App() {
   const [sortBy, setSortBy] = useState('priority');
   const [groupBy, setGroupBy] = useState('status');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +26,19 @@ function App() {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownOpen && dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownOpen]);
+
 
   const sortedTickets = [...tickets].sort((a, b) => {
     if (sortBy === 'priority') {
@@ -47,7 +61,7 @@ function App() {
     <div className="App">
       <h1>Kanban Board</h1>
 
-      <div className="dropdown">
+      <div className="dropdown" ref = {dropdownRef}>
         <button className="dropdown-toggle" onClick={toggleDropdown}>
           <img src="/icons/Display.svg" alt="Dropdown Icon" className="dropdown-icon" />
           <p className='dropdown-label'>Display</p>
